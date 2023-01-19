@@ -1,0 +1,8 @@
+sudo: required
+services: 
+  - docker
+before_install:
+ - docker  build -t ndohjapan/docker-react -f Dockerfile.dev npm run test
+
+script:
+  - docker run ndohjapan/docker-react npmm run test
