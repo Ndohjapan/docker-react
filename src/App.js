@@ -18,7 +18,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          don't worry about me 
+          We call it a trap
         </a>
       </header>
     </div>
