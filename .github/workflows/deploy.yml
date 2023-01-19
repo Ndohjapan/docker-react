@@ -5,25 +5,41 @@ on:
       - master # check your repo, your default branch might be master!
  
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
       - uses: actions/checkout@v2
       - run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
       - run: docker build -t ndohjapan/react-test -f dockerfile.dev .
       - run: docker run -e CI=true ndohjapan/react-test npm run test
- 
-      - name: Generate deployment package
-        run: zip -r deploy.zip . -x '*.git*'
- 
-      - name: Deploy to EB
+
+      - name: Set up AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-2
+
+      - name: Deploy to Elastic Beanstalk
         uses: aws-actions/elastic-beanstalk-deploy-application@v1
         with:
-          aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
-          aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
-          application_name: docker-react
-          environment_name: Dockerreact-env
-          existing_bucket_name: elasticbeanstalk-eu-west-2-941310735175
-          region: eu-west-2
-          version_label: ${{ github.sha }}
-          deployment_package: deploy.zip
+          application-name: docker-react
+          environment-name: Dockerreact-env
+          version-label: ${{ env.GITHUB_SHA }}
+          artifact: path/to/artifact.zip
+
+      # - name: Generate deployment package
+      #   run: zip -r deploy.zip . -x '*.git*'
+ 
+      # - name: Deploy to EB
+      #   uses: aws-actions/elastic-beanstalk-deploy-application@v1
+      #   with:
+      #     aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+      #     aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
+      #     application_name: docker-react
+      #     environment_name: Dockerreact-env
+      #     existing_bucket_name: elasticbeanstalk-eu-west-2-941310735175
+      #     region: eu-west-2
+      #     version_label: ${{ github.sha }}
+      #     deployment_package: deploy.zip
