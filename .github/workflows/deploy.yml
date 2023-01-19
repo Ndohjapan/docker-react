@@ -40,8 +40,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-    - name: Checkout source code
-      uses: actions/checkout@v2
+    # - name: Checkout source code
+    - uses: actions/checkout@v2
       run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }} && docker build -t ndohjapan/react-test -f dockerfile.dev . && docker run -e CI=true ndohjapan/react-test npm run test
 
     - name: Generate deployment package
