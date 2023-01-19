@@ -9,10 +9,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-      - uses: actions/checkout@v2
-      - run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-      - run: docker build -t ndohjapan/react-test -f dockerfile.dev .
-      - run: docker run -e CI=true ndohjapan/react-test npm run test
+        uses: actions/checkout@v2
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+        run: docker build -t ndohjapan/react-test -f dockerfile.dev .
+        run: docker run -e CI=true ndohjapan/react-test npm run test
 
       - name: Generate deployment package
         run: zip -r deploy.zip . -x '*.git*'
