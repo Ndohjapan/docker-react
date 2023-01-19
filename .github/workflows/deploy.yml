@@ -55,7 +55,6 @@ jobs:
         application_name: docker-react
         environment_name: Dockerreact-env
         existing_bucket_name: elasticbeanstalk-eu-west-2-941310735175
-        version_label: 12345
         region: eu-west-2
         deployment_package: deploy.zip
         use_existing_version_if_available: true
