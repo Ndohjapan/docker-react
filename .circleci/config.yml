@@ -11,7 +11,7 @@ jobs:
     steps:
       - run:
           name: Before Install
-          command: docker  build -t ndohjapan/docker-react -f Dockerfile.dev npm run test
+          command: docker  build -t ndohjapan/docker-react -f Dockerfile.dev . npm run test
       - run:
           name: Script
           command: docker run ndohjapan/docker-react npm run test -- --coverage
