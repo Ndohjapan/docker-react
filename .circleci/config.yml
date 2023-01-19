@@ -1,13 +1,30 @@
 sudo: required
 
+dependencies:
+  pre:
+    - sudo apt-get update
+    - sudo apt-get -y install docker-ce
+
+
+jobs:
+  build:
+    steps:
+      - run:
+          name: Before Install
+          command: docker  build -t ndohjapan/docker-react -f Dockerfile.dev npm run test
+      - run:
+          name: Script
+          command: docker run ndohjapan/docker-react npm run test -- --coverage
+
 # we will tell travis that we need a copy of docker running
-jobs: 
-  - docker
+# jobs: 
+#   build
+#   - docker
 
-# build our docker image using the dockerfile.dev
-before_install:
- - docker  build -t ndohjapan/docker-react -f Dockerfile.dev npm run test
+# # build our docker image using the dockerfile.dev
+# before_install:
+#  - docker  build -t ndohjapan/docker-react -f Dockerfile.dev npm run test
 
-# We will then tell travis how we want to run our test
-script:
-  - docker run ndohjapan/docker-react npm run test -- --coverage
+# # We will then tell travis how we want to run our test
+# script:
+#   - docker run ndohjapan/docker-react npm run test -- --coverage
