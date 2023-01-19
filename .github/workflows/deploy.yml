@@ -14,23 +14,27 @@ jobs:
       - run: docker build -t ndohjapan/react-test -f dockerfile.dev .
       - run: docker run -e CI=true ndohjapan/react-test npm run test
 
+      - name: Generate deployment package
+        run: zip -r deploy.zip . -x '*.git*'
+      
       - name: Set up AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-west-2
+      
 
       - name: Deploy to Elastic Beanstalk
         uses: aws-actions/elastic-beanstalk-deploy-application@v1
         with:
           application-name: docker-react
           environment-name: Dockerreact-env
-          version-label: ${{ env.GITHUB_SHA }}
+          existing_bucket_name: elasticbeanstalk-eu-west-2-941310735175
+          version-label: ${{ github.sha }}
           artifact: path/to/artifact.zip
+          deployment_package: deploy.zip
 
-      # - name: Generate deployment package
-      #   run: zip -r deploy.zip . -x '*.git*'
  
       # - name: Deploy to EB
       #   uses: aws-actions/elastic-beanstalk-deploy-application@v1
