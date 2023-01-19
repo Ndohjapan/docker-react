@@ -1,8 +1,13 @@
 sudo: required
-services: 
+
+# we will tell travis that we need a copy of docker running
+jobs: 
   - docker
+
+# build our docker image using the dockerfile.dev
 before_install:
  - docker  build -t ndohjapan/docker-react -f Dockerfile.dev npm run test
 
+# We will then tell travis how we want to run our test
 script:
-  - docker run ndohjapan/docker-react npmm run test
+  - docker run ndohjapan/docker-react npm run test -- --coverage
