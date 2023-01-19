@@ -1,0 +1,11 @@
+from node:14-alpine
+
+# This is used to specify the folder here we want our container to run on the linux OS
+WORKDIR '/app'
+
+COPY package.json .
+RUN npm install
+
+COPY . .
+
+CMD ["npm", "run", "start"]
