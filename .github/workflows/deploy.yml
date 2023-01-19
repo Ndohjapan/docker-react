@@ -55,7 +55,7 @@ jobs:
         aws-region: eu-west-2
 
     - name: Deploy to Elastic Beanstalk
-      uses: aws-actions/elastic-beanstalk-deploy-application@v1
+      uses: aws-actions/aws-eb-deploy
       with:
         application-name: docker-react
         environment-name: Dockerreact-env
