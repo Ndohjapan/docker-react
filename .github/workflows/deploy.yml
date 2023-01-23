@@ -45,17 +45,31 @@ jobs:
     - run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }} && docker build -t ndohjapan/react-test -f dockerfile.dev . && docker run -e CI=true ndohjapan/react-test npm run test
 
     - name: Generate deployment package
-      run: zip -r deploy.zip . -x '*.git*'
+        run: zip -r deploy.zip * .[^.]* -x "**node_modules**"
+
+      - name: Get timestamp
+        uses: gerred/actions/current-time@master
+        id: current-time
+
+      - name: Run string replace
+        uses: frabert/replace-string-action@master
+        id: format-time
+        with:
+          pattern: '[:\.]+'
+          string: "${{ steps.current-time.outputs.time }}"
+          replace-with: '-'
+          flags: 'g'
 
     - name: Deploy to EB
-      uses: einaregilsson/beanstalk-deploy@v21
+      uses: einaregilsson/beanstalk-deploy@v16
       with:
         aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
         aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
-        application_name: docker-react
-        environment_name: Dockerreact-env
-        existing_bucket_name: elasticbeanstalk-eu-west-2-941310735175
-        version_label: 12345
+        application_name: stephen-grider
+        environment_name: Stephengrider-env
+        version_label: "e-learn-${{ steps.format-time.outputs.replaced }}"
         region: eu-west-2
         deployment_package: deploy.zip
-        use_existing_version_if_available: true
+
+    - name: Deployed!
+      run: echo App deployed to ELB
