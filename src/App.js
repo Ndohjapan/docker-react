@@ -18,7 +18,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          We call it a trap
+          We are living in the world
         </a>
       </header>
     </div>
