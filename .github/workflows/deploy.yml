@@ -1,34 +1,3 @@
-# name: Deploy Frontend
-# on:
-#   push:
-#     branches:
-#       - master # check your repo, your default branch might be master!
- 
-# jobs:
-#   build:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/checkout@v2
-      # - run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-      # - run: docker build -t ndohjapan/react-test -f dockerfile.dev .
-      # - run: docker run -e CI=true ndohjapan/react-test npm run test
- 
-#       - name: Generate deployment package
-#         run: zip -r deploy.zip . -x '*.git*'
- 
-#       - name: Deploy to EB
-#         uses: einaregilsson/beanstalk-deploy@v18
-#         with:
-#           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
-#           aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
-#           region: eu-west-2
-          # application_name: docker-react
-          # environment_name: Dockerreact-env
-          # existing_bucket_name: elasticbeanstalk-eu-west-2-941310735175
-#           version_label: ${{ github.sha }}
-#           deployment_package: deploy.zip
-
-
 name: Deploy master
 on:
   push:
