@@ -18,7 +18,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          We are living in the world
+          The game was over before it started
         </a>
       </header>
     </div>
